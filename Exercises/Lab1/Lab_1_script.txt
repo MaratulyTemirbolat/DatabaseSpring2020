@@ -1,0 +1,114 @@
+insert into EMPLOYEES values ('206','William','Gietz','WGIETZ','515.123.8181', '07.06.94','AC_ACCOUNT','8300');
+/* The request "insert" means to add the new row with to the table EMPLOYEE with parameters in order as we did duriing the creation*/
+/* It is written only one time because I was correcting and rechanging the data during the inserting*/
+select * from EMPLOYEES; /* The request "select" with the star shows all the columns from the EMPLOYEE table that exist */
+
+select employee_id, first_name,last_name, hire_dat,salary from EMPLOYEES; /* show the data including id, first name, last name, hiring
+date and salaries of all employees*/
+
+select employee_id,first_name,last_name,email,12*salary from EMPLOYEES; /*Write a query to display id, first names, last names, email,
+                                                                          annual salaries of all employees.*/
+
+select DISTINCT job_id from EMPLOYEES; /*The Human Resources (HR) department requests data for all unique jobs from the
+EMPLOYEES table. Job IDs should not be repeated in the output*/
+
+select * from EMPLOYEES where job_id='IT_PROG' AND salary >5000; /*THE report that provides all the information
+about the programmers whose salaries are over 5000.*/
+
+select employee_id, last_name,first_name,job_id from EMPLOYEES where salary>=4000 AND salary<=7000; /* Display the id, last name, first name, and job title
+of all employees whose salaries range from 4000 to 7000.*/
+
+select last_name,first_name,salary from EMPLOYEES where salary<3000 OR salary >9000;
+/*display the last names, first names, and salaries of all employees whose salaries are outside the range from 3000 to 9000.*/
+
+select employee_id,last_name,first_name, 12*employees.salary from EMPLOYEES where salary<10000;
+/*Display id, last names, first names, annual salaries of those employees whose salaries are below 10000.*/
+
+select employee_id,last_name,salary from EMPLOYEES where SALARY BETWEEN 4000 AND 7000;/*Display id, last names, salaries of those employees
+whose salaries are in the range from 4000 to 7000 using the BETWEEN ... AND command */
+
+select employee_id, last_name,salary,job_id from EMPLOYEES where EMPLOYEE_ID IN (144,102,200,205);
+/*Write a query to display id, last names, salaries, job title from the list of id «144, 102, 200, 205»*/
+/*Used "IN " because we have several about the same conditions in order to make the raw smaller*/
+
+select employee_id,last_name,salary,job_id from EMPLOYEES where EMPLOYEE_ID NOT IN (144,102,200,205);
+/*Display id, last names, salaries, job title not from the list of id «144, 102, 200, 205».*/
+
+select employee_id, last_name,first_name,salary from EMPLOYEES where first_name like 'D%';
+/* Display id, last names, first names, salaries of those employees whose names begin with the letter D.*/
+
+select first_name from EMPLOYEES where first_name like '__a%'; /*Here __ means only two any letters and then a */
+/*Display all the names of employees in which the third letter is a.*/
+
+select employee_id,last_name,first_name,email,salary from EMPLOYEES where first_name like '%n';
+/* % means that instead of it can be nothing, one symbol or several and then n in the end*/
+/*Display id, last names, names, email, salaries of those employees whose names end with a letter n.*/
+
+select employee_id, last_name,email,salary from EMPLOYEES ORDER BY salary ASC;
+/*Display id, last names, email, salaries of all employees, sorting their salaries in ascending order*/
+
+select employee_id, last_name,first_name,salary from EMPLOYEES ORDER BY EMPLOYEE_ID DESC ;
+/*Display id, last names, names, salaries of all employees, sorting their id in descending order*/
+
+select AVG(salary) as average_salary,MAX(salary) as maximum_salary, MIN(salary) as minimum_salary, SUM(salary) as sum_salary
+From EMPLOYEES where JOB_ID = 'IT_PROG';
+/*Display the average, maximum, minimum and the sum of all programmers' salaries.*/
+
+select COUNT(job_id) as programmer_number from EMPLOYEES where JOB_ID = 'IT_PROG';
+/*Display the number of programmers. */
+
+select  COUNT(DISTINCT job_id) as number_unique_jobs from EMPLOYEES;
+/*Display the number of unique professions.*/
+
+select SUM(salary),JOB_ID from EMPLOYEES group by  JOB_ID;
+/*Show the  sum of the salaries in the EMPLOYEES table for each job title. */
+
+select AVG(salary), JOB_ID from EMPLOYEES group by JOB_ID;
+/*Average salaries in the EMPLOYEES table for each job title. */
+
+select MAX(salary), JOB_ID from EMPLOYEES group by JOB_ID HAVING MAX(salary) >10000 order by  MAX(SALARY) DESC ;
+/*Maximum salaries in the EMPLOYEES table for each job title that exceed 10,000 and
+sort them in descending order. */
+
+
+
+select MAX(average_salary) as maximum_average_salary from (
+                        select AVG(salary) average_salary
+                        from EMPLOYEES
+                        GROUP BY JOB_ID
+                            )a ;
+/*. Maximum average salary for each job title.*/
+
+select last_name, salary, 3*employees.salary as Dream_salary from EMPLOYEES;
+/*Recieve the last name, salary that employee earns and triple salary as Dream_salary */
+
+select last_name,first_name, LENGTH(first_name) from EMPLOYEES;
+/*Query to display the last name, first name and the number of letters in the first name of
+employees.*/
+
+select concat(last_name,' ',first_name) as Employee_name from EMPLOYEES;
+/*Query to display the full names of employees (last name + first name), separated by
+only one space, into a common column and name it "Employee_name".*/
+
+select SUBSTRING(last_name,1,3) from EMPLOYEES;
+/*Query to display the first three letters in the last names of employees. */
+
+select REVERSE(first_name) as Name_reversed from EMPLOYEES;
+/*Query to display the letters in the first names of employees in reverse order.*/
+
+select REPLACE(first_name,'en','yu') from EMPLOYEES;
+/*Replace "en" characters in the first names of employees with "yu" characters.*/
+
+select UPPER(last_name) as Uppercase_surname from EMPLOYEES;
+/*Convert all letters in the last names of employees to uppercase. */
+
+ALTER TABLE  EMPLOYEES
+ADD dream_salary integer;
+/*Add new column to the table*/
+update EMPLOYEES
+set dream_salary = 3*salary
+WHERE  employee_id >0;
+/*Update the dream_salary column assigning triple salary of each employee.
+  Also need 'Where' condition because UPDATE Works only with it
+  Used the condition where all employees involved*/
+select LAST_NAME, SALARY,EMPLOYEES.dream_salary from EMPLOYEES;
